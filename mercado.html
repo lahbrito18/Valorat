@@ -443,8 +443,8 @@ body{
     </div>
     <div id="feedback" class="feedback"></div>
     
-    <button class="finalizar" onclick="window.location.href='caixa.html'">
-        Ir a Caixa
+    <button class="finalizar" onclick="irParaCaixa()">
+        Ir ao Caixa
     </button>
 </aside>
 
@@ -575,6 +575,8 @@ function irParaCaixa(){
 
     localStorage.setItem("valorCompra", total.toFixed(2));
     localStorage.setItem("pontos", pontos);
+
+     window.location.href = "caixa.html";
 }
 
 function mostrarFeedback(texto, sucesso){
