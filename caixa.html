@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="css/icon.png">
+<title>Valorat - Caixa</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Fredoka',sans-serif;
+}
+
+body{
+
+    background:linear-gradient(
+        135deg,
+        #FFF9C4,
+        #E3F2FD
+    );
+
+    min-height:100vh;
+
+    padding:30px;
+}
+
+.topo{
+
+    text-align:center;
+
+    margin-bottom:30px;
+}
+
+.topo h1{
+
+    color:#1565C0;
+
+    font-size:2.5rem;
+}
+
+.container{
+
+    max-width:1000px;
+
+    margin:auto;
+}
+
+.card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.card h2{
+
+    color:#1565C0;
+
+    margin-bottom:15px;
+}
+
+.resumo p{
+
+    font-size:1.2rem;
+
+    margin:10px 0;
+}
+
+.nota{
+
+    text-align:center;
+
+    margin-top:20px;
+}
+
+.nota img{
+
+    width:300px;
+
+    max-width:100%;
+
+    border-radius:10px;
+
+    box-shadow:0 8px 15px rgba(0,0,0,.15);
+}
+
+input{
+
+    width:100%;
+
+    padding:15px;
+
+    border:2px solid #90CAF9;
+
+    border-radius:12px;
+
+    font-size:1.2rem;
+
+    margin-top:15px;
+}
+
+button{
+
+    border:none;
+
+    cursor:pointer;
+
+    border-radius:12px;
+
+    font-weight:600;
+}
+
+.btn-principal{
+
+    background:#4CAF50;
+
+    color:white;
+
+    padding:15px 25px;
+
+    margin-top:15px;
+
+    font-size:1rem;
+}
+
+.btn-principal:hover{
+
+    transform:scale(1.03);
+}
+
+#feedback{
+
+    margin-top:15px;
+
+    font-size:1.2rem;
+
+    font-weight:600;
+}
+
+.sucesso{
+
+    color:#2E7D32;
+}
+
+.erro{
+
+    color:#C62828;
+}
+
+.dinheiro-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(100px,1fr));
+
+    gap:5px;
+
+    margin-top:10px;
+}
+
+.dinheiro{
+
+    background:#ffffff;
+
+    border:3px solid #4CAF50;
+
+    padding:20px;
+
+    font-size:1.2rem;
+
+    font-weight:600;
+}
+
+.dinheiro:hover{
+
+    transform:scale(1.05);
+}
+
+.total-montado{
+
+    margin-top:20px;
+
+    font-size:1.5rem;
+
+    text-align:center;
+
+    color:#1565C0;
+}
+
+.medalha{
+
+    text-align:center;
+
+    margin-top:25px;
+
+    display:none;
+}
+
+.medalha h2{
+
+    font-size:2rem;
+
+    margin-bottom:10px;
+}
+
+.medalha p{
+
+    font-size:1.2rem;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="topo">
+
+    <h1>🏪 Caixa do Valorat</h1>
+
+</header>
+
+<div class="container">
+
+    <section class="card resumo">
+
+        <h2>🧾 Resumo da Compra</h2>
+
+        <p>
+            Valor da compra:
+            <strong id="valorCompra">
+                R$ 23,45
+            </strong>
+        </p>
+
+        <p>
+            Dinheiro entregue:
+            <strong>
+                R$ 50,00
+            </strong>
+        </p>
+
+        <div class="nota">
+
+            <img
+            src="50reais.jpg"
+            alt="Nota de cinquenta reais">
+
+        </div>
+
+    </section>
+
+    <section class="card">
+
+        <h2>💰 Quanto é o troco?</h2>
+
+        <input
+            type="number"
+            step="0.01"
+            id="respostaTroco"
+            placeholder="Digite o valor do troco">
+
+        <button
+            class="btn-principal"
+            onclick="validarTroco()">
+
+            Verificar Troco
+
+        </button>
+
+        <div id="feedback"></div>
+
+    </section>
+
+    <section class="card">
+
+        <h2>💵 Monte o Troco</h2>
+
+        <p>
+            Clique nas notas e moedas para montar o troco.
+        </p>
+
+        <div class="dinheiro-grid">
+
+            <button
+                class="dinheiro"
+                onclick="adicionarValor(20)">
+                <img src="20reais.jpg" height="65">
+            </button>
+
+            <button
+                class="dinheiro"
+                onclick="adicionarValor(5)">
+                <img src="5reais.jpg" height="65">
+            </button>
+
+            <button
+                class="dinheiro"
+                onclick="adicionarValor(1)">
+                <img src="1real.jpg" height="65">
+            </button>
+
+            <button
+                class="dinheiro"
+                onclick="adicionarValor(0.50)">
+                <img src="50cent.jpg" height="65">
+            </button>
+
+            <button
+                class="dinheiro"
+                onclick="adicionarValor(0.05)">
+                <img src="5cent.jpg" height="65">
+            </button>
+
+        </div>
+
+        <div class="total-montado">
+
+            Total Montado:
+
+            <strong id="trocoMontado">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+        <button
+            class="btn-principal"
+            onclick="validarMontagem()">
+
+            Confirmar Troco
+
+        </button>
+
+    </section>
+
+    <section
+        class="card medalha"
+        id="medalha">
+
+        <h2 id="tipoMedalha"></h2>
+
+        <p id="mensagemFinal"></p>
+
+    </section>
+
+</div>
+
+<script>
+
+const valorCompra =
+Number(
+    localStorage.getItem(
+        "valorCompra"
+    )
+) || 23.45;
+
+document
+.getElementById("valorCompra")
+.innerText =
+`R$ ${valorCompra.toFixed(2)}`;
+
+const trocoCorreto =
+50 - valorCompra;
+
+let valorMontado = 0;
+
+function validarTroco(){
+
+    const resposta =
+    Number(
+        document
+        .getElementById(
+            "respostaTroco"
+        )
+        .value
+    );
+
+    const feedback =
+    document
+    .getElementById(
+        "feedback"
+    );
+
+    if(
+        resposta.toFixed(2)
+        ==
+        trocoCorreto.toFixed(2)
+    ){
+
+        feedback.innerHTML =
+        "🎉 Muito bem! O cálculo está correto.";
+
+        feedback.className =
+        "sucesso";
+
+    }else{
+
+        if(
+            resposta >
+            trocoCorreto
+        ){
+
+            feedback.innerHTML =
+            "⚠️ Você deu troco demais.";
+
+        }else{
+
+            feedback.innerHTML =
+            "⚠️ Está faltando troco.";
+
+        }
+
+        feedback.className =
+        "erro";
+    }
+}
+
+function adicionarValor(valor){
+
+    valorMontado += valor;
+
+    document
+    .getElementById(
+        "trocoMontado"
+    )
+    .innerText =
+    `R$ ${valorMontado.toFixed(2)}`;
+
+}
+
+function validarMontagem(){
+
+    if(
+
+        valorMontado.toFixed(2)
+
+        ==
+
+        trocoCorreto.toFixed(2)
+
+    ){
+
+        mostrarMedalha();
+
+    }else{
+
+        alert(
+            "O valor montado não corresponde ao troco correto."
+        );
+    }
+
+}
+
+function mostrarMedalha(){
+
+    const pontos =
+    Number(
+        localStorage.getItem(
+            "pontos"
+        )
+    ) || 100;
+
+    let medalha;
+
+    if(
+        pontos >= 90
+    ){
+
+        medalha =
+        "🥇 Medalha de Ouro";
+
+    }else if(
+        pontos >= 70
+    ){
+
+        medalha =
+        "🥈 Medalha de Prata";
+
+    }else{
+
+        medalha =
+        "🥉 Medalha de Bronze";
+
+    }
+
+    document
+    .getElementById(
+        "medalha"
+    )
+    .style.display =
+    "block";
+
+    document
+    .getElementById(
+        "tipoMedalha"
+    )
+    .innerHTML =
+    medalha;
+
+    document
+    .getElementById(
+        "mensagemFinal"
+    )
+    .innerHTML =
+
+    `
+    🎉 Parabéns!
+
+    Você concluiu a missão do Valorat.
+
+    Pontuação: ${pontos}
+
+    Troco correto:
+    R$ ${trocoCorreto.toFixed(2)}
+    `;
+
+}
+
+</script>
+
+</body>
+</html>

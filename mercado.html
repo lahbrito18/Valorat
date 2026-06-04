@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="css/icon.png">
+<title>Valorat - Mercado</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --azul:#4F7DF3;
+    --verde:#6BCB77;
+    --amarelo:#FFD93D;
+    --coral:#FF6B6B;
+    --bg:#F5F7FF;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Fredoka',sans-serif;
+    background:var(--bg);
+    padding:20px;
+    display: grid;
+    grid-template-columns: 3.8fr 1.2fr;
+    gap: 20px;
+}
+
+.topo, .missao {
+    grid-column: span 2;
+}
+
+.topo{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.logo{
+    color:var(--azul);
+}
+
+.status{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.badge{
+    padding:12px 18px;
+    border-radius:15px;
+    color:white;
+    font-weight:600;
+}
+
+.orcamento{
+    background:var(--azul);
+}
+
+.carrinho-total{
+    background:var(--verde);
+}
+
+.pontos{
+    background:var(--amarelo);
+    color:#333;
+}
+
+.missao{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.missao h2{
+    margin-bottom:10px;
+}
+
+.produtos{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    gap:15px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.nome{
+    margin-top:10px;
+    font-size:1rem;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.preco{
+    margin:10px 0;
+    font-size:1.2rem;
+    color:var(--azul);
+}
+
+.btn{
+    border:none;
+    background:var(--coral);
+    color:white;
+    padding:10px 14px;
+    border-radius:12px;
+    cursor:pointer;
+    font-family:'Fredoka';
+    width:100%;
+}
+
+.btn:hover{
+    opacity:.9;
+}
+
+.imagem-produto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px;
+    margin-bottom: 10px;
+}
+
+.imagem-produto img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.carrinho{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    height:fit-content;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.carrinho h2{
+    margin-bottom:15px;
+}
+
+#lista{
+    list-style:none;
+}
+
+#lista li{
+    background:#F1F5FF;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:8px;
+    font-size:0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#lista li button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.total{
+    margin-top:20px;
+    border-top:2px solid #ddd;
+    padding-top:15px;
+    font-size:1.4rem;
+}
+
+.finalizar{
+    width:100%;
+    margin-top:20px;
+    background:var(--verde);
+    color:white;
+    border:none;
+    padding:15px;
+    border-radius:15px;
+    font-family:'Fredoka';
+    font-size:1rem;
+    cursor:pointer;
+}
+
+.feedback{
+    margin-top:15px;
+    padding:12px;
+    border-radius:12px;
+    display:none;
+    font-size:0.9rem;
+}
+
+.sucesso{
+    background:#DFF7E5;
+    color:#1E7A37;
+}
+
+.nota-real{
+    width:250px;
+    max-width:100%;
+    margin-top:15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    transition:.2s;
+}
+
+.nota-real:hover{
+    transform:scale(1.03);
+}
+
+.erro{
+    background:#FFE3E3;
+    color:#B00020;
+}
+
+.missao-container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+.missao-info{
+    flex:1;
+    min-width:280px;
+}
+
+.pagamento{
+    flex:1;
+    min-width:280px;
+    text-align:center;
+}
+
+@media(max-width:1100px){
+    body{
+        grid-template-columns:1fr;
+    }
+    .topo, .missao {
+        grid-column: span 1;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topo">
+    <div class="logo">
+        <h1>💰 VALORAT</h1>
+    </div>
+    <div class="status">
+        <div class="badge orcamento">
+            🎯 Orçamento: R$ 30,00
+        </div>
+        <div class="badge carrinho-total">
+            🛒 Total: <span id="topTotal">R$ 0,00</span>
+        </div>
+        <div class="badge pontos">
+            ⭐ <span id="pontos">100</span> Pontos
+        </div>
+    </div>
+</div>
+
+<section class="missao">
+    <div class="missao-container">
+        <div class="missao-info">
+            <h2>📖 Missão do Chef</h2>
+            <p>Compre os ingredientes para fazer panquecas.</p>
+            <p>✅ Farinha 1kg</p>
+            <p>✅ Leite Integral 500ml</p>
+            <p>✅ Fermento 100g</p>
+            <p>✅ Óleo 900ml</p>
+            <p>✅ Sal 1kg</p>
+        </div>
+        <div class="pagamento">
+            <h3>💵 Dinheiro para pagamento</h3>
+            <img src="50reais.jpg" alt="Nota de cinquenta reais" class="nota-real">
+            <p>Esta é a nota que você usará no caixa.</p>
+        </div>
+    </div>
+</section>
+
+<section class="produtos">
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://sorvetesbambyne.com.br/wp-content/uploads/2022/01/Napolitano-2-litros-web.png" alt="Pote de Sorvete" height="100">
+        </div>
+        <div class="nome">Sorvete Pote</div>
+        <div class="preco">R$ 21,99</div>
+        <button class="btn" onclick="addDistrator('Sorvete Pote',21.99)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://m.media-amazon.com/images/I/71ofpr1GEwL._AC_UF894,1000_QL80_.jpg" alt="Pacote de Farinha 500g" width="100" height="100">
+        </div>
+        <div class="nome">Farinha 500g</div>
+        <div class="preco">R$ 3,50</div>
+        <button class="btn" onclick="addDistrator('Farinha 500g',3.50)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhG7WhIEWhVFO1DKsmco5AeXysr18SyzigA&s" alt="Pacote de Farinha 1kg" width="100" height="100">
+        </div>
+        <div class="nome">Farinha 1kg</div>
+        <div class="preco">R$ 5,80</div>
+        <button class="btn" onclick="addItem('Farinha 1kg',5.80)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://phygital-files.mercafacil.com/copagril/uploads/produto/ovos_granja_cometa_branco_grande_c_12_7b9d5225-135d-468f-a25d-77582e8f5d39.png" alt="Ovos" height="100">
+        </div>
+        <div class="nome">Ovos</div>
+        <div class="preco">R$ 15,90</div>
+        <button class="btn" onclick="addDistrator('Ovos',15.90)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://m.media-amazon.com/images/I/81tKtIZ+bML.jpg" alt="Fermento 100g" height="100">
+        </div>
+        <div class="nome">Fermento 100g</div>
+        <div class="preco">R$ 2,70</div>
+        <button class="btn" onclick="addItem('Fermento 100g', 2.70)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://carrefourbrfood.vtexassets.com/arquivos/ids/211616/141836_1.jpg?v=637272514200130000" alt="Óleo 900ml" height="100">
+        </div>
+        <div class="nome">Óleo 900ml</div>
+        <div class="preco">R$ 8,00</div>
+        <button class="btn" onclick="addItem('Óleo 900ml', 8.00)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ8fNyIMsFiM3J3ozHvUHw1GM4DSrtRDw_Tw&s" alt="Sal 1kg" height="100">
+        </div>
+        <div class="nome">Sal 1kg</div>
+        <div class="preco">R$ 3,00</div>
+        <button class="btn" onclick="addItem('Sal 1kg', 3.00)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://petrox.vtexassets.com/arquivos/ids/170008/ARROZ-MEU-BIJU-BRANCO-TIPO-1-1KG.webp?v=639056342314130000" alt="Pacote de Arroz" height="100">
+        </div>
+        <div class="nome">Arroz 1kg</div>
+        <div class="preco">R$ 6,50</div>
+        <button class="btn" onclick="addDistrator('Arroz 1kg',6.50)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://m.media-amazon.com/images/I/815s35jNVkL._AC_UF894,1000_QL80_.jpg" alt="Pacote de Feijão" height="100">
+        </div>
+        <div class="nome">Feijão 1kg</div>
+        <div class="preco">R$ 8,20</div>
+        <button class="btn" onclick="addDistrator('Feijão 1kg',8.20)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://m.media-amazon.com/images/I/61ybzna4AML._AC_UF894,1000_QL80_.jpg" alt="Pacote de Café" height="100">
+        </div>
+        <div class="nome">Café 500g</div>
+        <div class="preco">R$ 14,90</div>
+        <button class="btn" onclick="addDistrator('Café 500g',14.90)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://d21wiczbqxib04.cloudfront.net/qtXqua8CwkVPznKmQU85596UjXI=/1600x0/smart/https://produtos-osuper.s3.sa-east-1.amazonaws.com/29857.jpg" alt="Caixa de Leite Integral" width="100" height="100">
+        </div>
+        <div class="nome">Leite Integral 500ml</div>
+        <div class="preco">R$ 3,95</div>
+        <button class="btn" onclick="addItem('Leite Integral 500ml',3.95)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUoq2mQWhX2gkvB_dLN9TwwQHCu3LJJ9DUww&s" alt="Caixa de Leite Promoção" width="100" height="100">
+        </div>
+        <div class="nome">Leite Integral 1l</div>
+        <div class="preco">R$ 8,95</div>
+        <button class="btn" onclick="addDistrator('Leite Integral 1l',8.95)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://m.media-amazon.com/images/I/71ulQUfLG2L._AC_UF894,1000_QL80_.jpg" alt="Barra de Chocolate" height="100">
+        </div>
+        <div class="nome">Chocolate</div>
+        <div class="preco">R$ 12,50</div>
+        <button class="btn" onclick="addDistrator('Chocolate',12.50)">Adicionar</button>
+    </div>
+
+    <div class="card">
+        <div class="imagem-produto">
+            <img src="https://paosantobh.com.br/wp-content/uploads/2024/06/1981188.png" alt="Lata de Refrigerante" height="100">
+        </div>
+        <div class="nome">Coca Cola</div>
+        <div class="preco">R$ 8,75</div>
+        <button class="btn" onclick="addDistrator('Coca Cola',8.75)">Adicionar</button>
+    </div>
+
+</section>
+
+<aside class="carrinho">
+    <h2>🛒 Meu Carrinho</h2>
+    <ul id="lista"></ul>
+    <div class="total">
+        Total: <span id="total">R$ 0,00</span>
+    </div>
+    <div id="feedback" class="feedback"></div>
+    
+    <button class="finalizar" onclick="window.location.href='caixa.html'">
+        Ir a Caixa
+    </button>
+</aside>
+
+<script>
+
+let total = 0;
+let pontos = 100;
+let carrinho = [];
+const ORCAMENTO = 30;
+
+function atualizarTotal(){
+    document.getElementById("total").innerText = `R$ ${total.toFixed(2)}`;
+    document.getElementById("topTotal").innerText = `R$ ${total.toFixed(2)}`;
+}
+
+function addItem(nome, preco){
+    limparFeedback();
+
+    carrinho.push({
+        nome,
+        preco,
+        distrator:false
+    });
+
+    total += preco;
+    atualizarCarrinho();
+}
+
+function addDistrator(nome, preco){
+    limparFeedback();
+
+    carrinho.push({
+        nome,
+        preco,
+        distrator:true
+    });
+
+    total += preco;
+    pontos -= 10;
+
+    atualizarCarrinho();
+
+    mostrarFeedback(
+        "⚠️ Esse produto não faz parte da receita!",
+        false
+    );
+}
+
+function atualizarCarrinho(){
+    const lista = document.getElementById("lista");
+    lista.innerHTML = "";
+
+    carrinho.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span>${item.nome} - R$ ${item.preco.toFixed(2)}</span>
+            <button onclick="removerItem(${index})">❌</button>
+        `;
+        lista.appendChild(li);
+    });
+
+    document.getElementById("total").innerText = `R$ ${total.toFixed(2)}`;
+    document.getElementById("topTotal").innerText = `R$ ${total.toFixed(2)}`;
+    document.getElementById("pontos").innerText = pontos;
+
+    if (total <= ORCAMENTO && document.getElementById("feedback").innerText.includes("orçamento")) {
+        limparFeedback();
+    }
+
+    verificarOrcamento();
+}
+
+function removerItem(index){
+    limparFeedback();
+
+    const item = carrinho[index];
+    total -= item.preco;
+
+    if(item.distrator){
+        pontos += 10;
+    }
+
+    carrinho.splice(index, 1);
+    atualizarCarrinho();
+}
+
+function verificarOrcamento(){
+    if(total > ORCAMENTO){
+        mostrarFeedback(
+            "🚨 Você ultrapassou o orçamento de R$30,00!",
+            false
+        );
+    }
+}
+
+function validarReceita(){
+    const contagem = {};
+    carrinho.forEach(item => {
+        contagem[item.name || item.nome] = (contagem[item.name || item.nome] || 0) + 1;
+    });
+
+    const receitaCompleta =
+        contagem["Farinha 1kg"] === 1 &&
+        contagem["Leite Integral 500ml"] === 1 &&
+        contagem["Fermento 100g"] === 1 &&
+        contagem["Óleo 900ml"] === 1 &&
+        contagem["Sal 1kg"] === 1;
+
+    return receitaCompleta && carrinho.length === 5;
+}
+
+function irParaCaixa(){
+    if(!validarReceita()){
+        mostrarFeedback(
+            "❌ O seu carrinho não corresponde exatamente à lista de compras da receita.",
+            false
+        );
+        return;
+    }
+
+    if(total > ORCAMENTO){
+        mostrarFeedback(
+            "❌ Você ultrapassou o orçamento.",
+            false
+        );
+        return;
+    }
+
+    localStorage.setItem("valorCompra", total.toFixed(2));
+    localStorage.setItem("pontos", pontos);
+}
+
+function mostrarFeedback(texto, sucesso){
+    const box = document.getElementById("feedback");
+    box.style.display = "block";
+    box.innerText = texto;
+    box.className = sucesso ? "feedback sucesso" : "feedback erro";
+}
+
+// Limpa avisos e feedbacks visuais
+function limparFeedback(){
+    const box = document.getElementById("feedback");
+    box.style.display = "none";
+    box.innerText = "";
+}
+
+</script>
+
+</body>
+</html>
